@@ -26,6 +26,18 @@ extern "C" {
 
 //DHT12 dht12;
 
+#include "arduinoFFT.h" // Standard Arduino FFT library
+arduinoFFT FFT = arduinoFFT();
+#define SAMPLES 256              //Must be a power of 2
+#define SAMPLING_FREQUENCY 10000 //Hz, must be 10000 or less due to ADC conversion time. Determines maximum frequency that can be analysed by the FFT.
+#define amplitude 50
+unsigned int sampling_period_us;
+unsigned long microseconds;
+byte peak[] = {0,0,0,0,0,0,0};
+double vReal[SAMPLES];
+double vImag[SAMPLES];
+unsigned long newTime, oldTime;
+
 ClickButton button1(BUTTON_PIN, LOW, CLICKBTN_PULLUP);
 
 // Fade variables
@@ -161,6 +173,7 @@ functionList effectList[] = {
   //scrollTemp,
   solid,
   solidChanging,
+  //soundFreq,
   soundReactive,
   soundReactiveRainbow,
   fire2012WithPalette,
@@ -218,6 +231,8 @@ void setup() {
   numEffects = (sizeof(effectList) / sizeof(effectList[0]));
 
   FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+
+  sampling_period_us = round(1000000 * (1.0 / SAMPLING_FREQUENCY));
 
   // check to see if EEPROM has been used yet
   // if so, load the stored settings
@@ -343,7 +358,7 @@ void buttons() {
 
   if (button1.clicks == 1) {
     // Single Click...
-    Serial.println("Effect +");
+    //Serial.println("Effect +");
     if (lastEffectBeforeOff != -1) {
       currentEffect = lastEffectBeforeOff;
       lastEffectBeforeOff = -1;
@@ -352,13 +367,13 @@ void buttons() {
     }
     effectInit = false;
     if (currentEffect > (numEffects - 1)) currentEffect = 0;
-    Serial.println(currentEffect);
+    //Serial.println(currentEffect);
 
     eepromMillis = millis();
     eepromOutdated = true;
   } else if (button1.clicks == 2)   {
     // Go back an effect
-    Serial.println("Effect -");
+    //Serial.println("Effect -");
     if (lastEffectBeforeOff != -1) {
       currentEffect = lastEffectBeforeOff;
       lastEffectBeforeOff = -1;
@@ -368,7 +383,7 @@ void buttons() {
     effectInit = false;
     if (currentEffect < 0 || currentEffect > (numEffects - 1)) currentEffect = numEffects - 1;
 
-    Serial.println(currentEffect);
+    //Serial.println(currentEffect);
 
     eepromMillis = millis();
     eepromOutdated = true;
@@ -406,7 +421,7 @@ void buttons() {
       eepromMillis = millis();
       eepromOutdated = true;
 
-      Serial.println("Brightness: " + (String)currentBrightness);
+      //Serial.println("Brightness: " + (String)currentBrightness);
     }
   } else if (lastClicks == -2 && button1.depressed == true)   {
     // move blackout if button is held down during double-click
@@ -436,7 +451,7 @@ void buttons() {
       eepromMillis = millis();
       eepromOutdated = true;
 
-      Serial.println("Blackout Pos: " + (String)blackoutPos);
+      //Serial.println("Blackout Pos: " + (String)blackoutPos);
     }
   } else if (lastClicks == -3 && button1.depressed == true)   {
     // Adjust blackout size if button is held down during triple-click
@@ -456,7 +471,7 @@ void buttons() {
       eepromMillis = millis();
       eepromOutdated = true;
 
-      Serial.println("Blackout Width: " + (String)blackoutWidth);
+      //Serial.println("Blackout Width: " + (String)blackoutWidth);
     }
   } else {
     // Save old fade direction for next time
