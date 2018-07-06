@@ -465,3 +465,9 @@ uint16_t solidChanging() {
   fill_solid(leds, NUM_LEDS, CHSV(gHue, 255, 255));
   return 10;
 }
+
+uint16_t effectOff() {
+  //FastLED.clear();
+  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  return 10;
+}

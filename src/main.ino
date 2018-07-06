@@ -192,7 +192,8 @@ functionList effectList[] = {
   juggle,
   sinelon,
   cylon,
-  cylon2
+  cylon2,
+  effectOff
 };
 
 void setup() {
@@ -360,7 +361,14 @@ void buttons() {
 
     eepromMillis = millis();
     eepromOutdated = true;
-  } else if (button1.clicks  == 3)   {
+  } else if (button1.clicks == 3)   {
+    // Turn off LEDs
+    //Serial.println("Effect Off");
+    currentEffect = numEffects - 1;
+    effectInit = false;
+    eepromMillis = millis();
+    eepromOutdated = true;
+  } else if (button1.clicks == 4)   {
     // Reset back to first effect
     Serial.println("Effect Reset");
     currentEffect = 0;
