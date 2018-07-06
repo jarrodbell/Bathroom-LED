@@ -131,6 +131,7 @@ uint16_t effectDelay = 10;
 long effectMillis;
 byte currentEffect = 0; // index to the currently running effect
 byte numEffects;
+int8_t lastEffectBeforeOff = -1;
 bool effectInit = false;
 
 int chaser = 0;
@@ -343,7 +344,12 @@ void buttons() {
   if (button1.clicks == 1) {
     // Single Click...
     Serial.println("Effect +");
-    currentEffect++;
+    if (lastEffectBeforeOff != -1) {
+      currentEffect = lastEffectBeforeOff;
+      lastEffectBeforeOff = -1;
+    } else {
+      currentEffect++;
+    }
     effectInit = false;
     if (currentEffect > (numEffects - 1)) currentEffect = 0;
     Serial.println(currentEffect);
@@ -353,7 +359,12 @@ void buttons() {
   } else if (button1.clicks == 2)   {
     // Go back an effect
     Serial.println("Effect -");
-    currentEffect--;
+    if (lastEffectBeforeOff != -1) {
+      currentEffect = lastEffectBeforeOff;
+      lastEffectBeforeOff = -1;
+    } else {
+      currentEffect--;
+    }
     effectInit = false;
     if (currentEffect < 0 || currentEffect > (numEffects - 1)) currentEffect = numEffects - 1;
 
@@ -364,6 +375,7 @@ void buttons() {
   } else if (button1.clicks == 3)   {
     // Turn off LEDs
     //Serial.println("Effect Off");
+    lastEffectBeforeOff = currentEffect;
     currentEffect = numEffects - 1;
     effectInit = false;
     eepromMillis = millis();
@@ -372,6 +384,7 @@ void buttons() {
     // Reset back to first effect
     Serial.println("Effect Reset");
     currentEffect = 0;
+    lastEffectBeforeOff = -1;
     effectInit = false;
 
     eepromMillis = millis();
