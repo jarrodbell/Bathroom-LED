@@ -51,14 +51,64 @@ uint16_t soundReactive() {
     peakToPeak = 0;
   }
 
-  Serial.println(peakToPeak);
+  //Serial.println(peakToPeak);
 
   height = ((float)peakToPeak / 1024) * (float)NUM_LEDS;
-  Serial.println(height);
+  //Serial.println(height);
 
   fill_solid(leds, NUM_LEDS, CRGB(0,0,0));
   for (i=0; i<height; i++) {
     leds[i] = CHSV(gHue, 255, 255);
+  }
+
+  return 0;
+}
+
+uint16_t soundReactiveRainbow() {
+
+  static uint8_t hue = 1;
+  uint16_t  i;
+  signed int   sample;
+  unsigned int height;
+
+  signed int peakToPeak = 0;   // peak-to-peak level
+  signed int signalMax = 0;
+  signed int signalMin = 1024;
+
+  for (i=0; i<50; i++) {
+    sample = analogRead(MIC_PIN);
+    if (sample < 0)  {
+      sample = 1023;
+    }
+    if (sample < 1024)  {// toss out spurious readings
+       if (sample > signalMax) {
+          signalMax = sample;  // save just the max levels
+       } else if (sample < signalMin) {
+          signalMin = sample;  // save just the min levels
+       }
+    }
+  }
+  peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
+  //double volts = (peakToPeak * 3.3) / 1024;  // convert to volts
+  //Serial.println(volts);
+
+  if (peakToPeak < 0 || peakToPeak > 1024) {
+    peakToPeak = 0;
+  }
+
+  //Serial.println(peakToPeak);
+
+  height = ((float)peakToPeak / 1024) * (float)(NUM_LEDS+1);
+  //Serial.println(height);
+
+  //fill_solid(leds, NUM_LEDS, CRGB(0,0,0));
+  fadeToBlackBy(leds, NUM_LEDS, 20);
+  for (i=0; i<height; i++) {
+    leds[i] = ColorFromPalette(palette, i + hue);
+  }
+
+  EVERY_N_MILLISECONDS(10) {
+    hue++;
   }
 
   return 0;

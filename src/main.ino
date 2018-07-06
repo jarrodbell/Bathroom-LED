@@ -161,6 +161,7 @@ functionList effectList[] = {
   solid,
   solidChanging,
   soundReactive,
+  soundReactiveRainbow,
   fire2012WithPalette,
   Fire2012,
   fireNoise,
