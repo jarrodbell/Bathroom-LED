@@ -50,8 +50,8 @@ long numTaps = 0;
 
 // How many leds in your strip?
 //#define NUM_LEDS 62
-#define MAX_LEDS 295
-#define NUM_LEDS 295
+#define MAX_LEDS 296
+#define NUM_LEDS 296
 //#define NUM_LEDS 61
 #define LED_PER_WRAP 16
 
@@ -62,7 +62,7 @@ long numTaps = 0;
 
 // Torch variables
 const uint8_t MATRIX_WIDTH = LED_PER_WRAP;
-const uint8_t MATRIX_HEIGHT = 18;
+const uint8_t MATRIX_HEIGHT = 19;
 const int MATRIX_CENTER_X = MATRIX_WIDTH / 2;
 const int MATRIX_CENTER_Y = MATRIX_HEIGHT / 2;
 const byte MATRIX_CENTRE_X = MATRIX_CENTER_X - 1;
