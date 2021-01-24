@@ -1,0 +1,37 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=Bathroom LED Controller
+*Date=22:31:28
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;THT;49.5018;-15.8552;90;Bottom;Button
+2;1mF;100 mil [THT, electrolytic];44.2397;-40.12;0;Bottom;C1
+3;;5 mm [THT];6.13989;-28.111;0;Bottom;Sensor LED
+4;330;THT;54.5818;-32.3652;-90;Bottom;R2
+5;;THT;13.9422;-19.6652;0;Bottom;J2
+6;;;15.0297;-39.3613;0;Bottom;LED Strip 1
+7;;;29.5656;-36.1752;0;Bottom;Via2
+8;;THT;44.4222;-19.6652;0;Bottom;J1
+9;;;7.62;-34.3464;0;Bottom;Via1
+10;;;9.43924;-34.6916;0;Bottom;TXT1
+11;;;12.6718;-3.15519;0;Bottom;Hole3
+12;;;3.59974;-41.39;0;Bottom;Hole2
+13;;;12.4968;-42.2712;0;Bottom;Via3
+14;;;32.8097;-39.3613;0;Bottom;LED Strip 2
+15;;;46.9618;-3.15519;0;Bottom;Hole4
+16;;5 mm [THT];6.13989;-16.681;0;Bottom;Power LED
+17;330;THT;54.5818;-17.1252;-90;Bottom;R1
+18;;;46.9618;-26.0152;-90;Bottom;PIR
+19;;;56.9397;-41.39;0;Bottom;Hole1
+20;;;29.1818;-18.7224;0;Bottom;WeMos D1 Mini
+21;;;3.31448;-32.8455;0;Bottom;TXT1
+22;;THT;50.7718;-41.2552;90;Bottom;-  + 5VDC
