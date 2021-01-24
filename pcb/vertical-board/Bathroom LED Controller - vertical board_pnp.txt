@@ -1,0 +1,33 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=Bathroom LED Controller - vertical board
+*Date=08:47:21
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;THT;27.9118;-2.3008;-90;Bottom;J2
+2;;;36.8017;-23.8908;0;Bottom;Via1
+3;;;6.44559;-13.6064;-90;Bottom;TXT2
+4;;THT;27.9118;-31.5108;-90;Bottom;J1
+5;;;51.9193;-1.3627;0;Bottom;TXT1
+6;;;46.9618;-26.4308;-90;Bottom;PIR
+7;;5 mm [THT];5.63076;-31.5108;-90;Bottom;SENR
+8;;;6.51092;-16.3286;-90;Bottom;TXT2
+9;;THT;8.86178;-13.7308;180;Bottom;Strip 2
+10;;THT;52.0418;-3.5708;180;Bottom;Button
+11;330;THT;54.5818;-12.4608;-90;Bottom;R2
+12;1mF;100 mil [THT, electrolytic];6.32178;-4.8408;0;Bottom;C1
+13;;5 mm [THT];13.2508;-31.5108;-90;Bottom;PWR
+14;330;THT;49.5018;-13.7308;-90;Bottom;R1
+15;;;28.8546;-16.9307;-90;Bottom;WeMos D1 Mini
+16;;THT;54.5818;-27.7008;0;Bottom;5V  + -
+17;;THT;3.78178;-13.7308;180;Bottom;Strip 1
+18;;;6.48434;-11.0902;-90;Bottom;TXT2
