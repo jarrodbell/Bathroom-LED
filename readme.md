@@ -26,3 +26,15 @@ A simple wave of your hand will be enough usually to trigger the motion sensor i
 6. WS2812b 60/m LED strips
 7. 330ohm resistor on each LED strip data line (as close to LED strip as possible)
 8. 1000uF capacitor on PSU end of LED strip
+
+# Breadboard
+
+Fritzing breadboard image (rats nest!)
+
+![Fritzing breadboard image](breadboard.png)
+
+# PCB
+
+Fritzing PCB design, after autorouting and lots of route cleanup.
+
+![Fritzing PCB image](pcb.png)
