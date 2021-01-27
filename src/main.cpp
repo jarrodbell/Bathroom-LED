@@ -98,6 +98,17 @@ bool isManualMode = false;
 bool isAutoMode = false;
 bool manuallyTurnedOff = false;
 
+// FIRE 2012
+// COOLING: How much does the air cool as it rises?
+// Less cooling = taller flames.  More cooling = shorter flames.
+// Default 50, suggested range 20-100 
+#define COOLING  120
+// SPARKING: What chance (out of 255) is there that a new spark will be lit?
+// Higher chance = more roaring fire.  Lower chance = more flickery fire.
+// Default 120, suggested range 50-200.
+#define SPARKING 100
+bool gReverseDirection = false;
+
 uint16_t glow() {
   FastLED.setTemperature( Candle );
   fill_solid(leds, NUM_LEDS, Candle);
@@ -221,9 +232,50 @@ uint16_t effectOff() {
   return 10;
 }
 
+uint16_t Fire2012() {
+// Array of temperature readings at each simulation cell
+  static byte heat[NUM_LEDS/2];
+
+  // Step 1.  Cool down every cell a little
+  for( int i = 0; i < NUM_LEDS/2; i++) {
+    heat[i] = qsub8( heat[i],  random8(0, ((COOLING * 10) / NUM_LEDS/2) + 2));
+  }
+
+  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
+  for( int k= NUM_LEDS/2 - 1; k >= 2; k--) {
+    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
+  }
+  
+  // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
+  if( random8() < SPARKING ) {
+    int y = random8(7);
+    heat[y] = qadd8( heat[y], random8(160,255) );
+  }
+
+  // Step 4.  Map from heat cells to LED colors
+  for( int j = 0; j < NUM_LEDS/2; j++) {
+    CRGB color = HeatColor( constrain(heat[j], 0, 100));
+    int pixelnumber;
+    if( gReverseDirection ) {
+      pixelnumber = (NUM_LEDS/2-1) - j;
+    } else {
+      pixelnumber = j;
+    }
+    leds[pixelnumber] = color;
+  }
+
+    // copy in reverse order first half of strip to second half
+  for (uint8_t i = 0; i < NUM_LEDS/2; i++) {
+    leds[NUM_LEDS-1-i] = leds[i];  
+  }
+
+  return 30;
+}
+
 typedef uint16_t (*functionList)();
 functionList effectList[] = {
   glow,
+  Fire2012,
   FillLEDsFromPaletteColors,
   solidColors,
   fillFire,
@@ -265,7 +317,6 @@ void setup() {
   FastLED.setBrightness(BRIGHTNESS);
 
   // Set start fire
-
   gPal = CRGBPalette16( CRGB::Black, CRGB(255,0,0), CRGB::Orange, CRGB::Yellow);
   AVERAGE_DELAY = 80;
   //currentBrightness = 180;
