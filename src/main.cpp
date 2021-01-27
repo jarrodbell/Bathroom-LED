@@ -254,7 +254,7 @@ uint16_t Fire2012() {
 
   // Step 4.  Map from heat cells to LED colors
   for( int j = 0; j < NUM_LEDS/2; j++) {
-    CRGB color = HeatColor( constrain(heat[j], 0, 100)); // Constrain to prevent bright whites
+    CRGB color = HeatColor( constrain(heat[j], 0, 120)); // Constrain to prevent bright whites
     int pixelnumber;
     if( gReverseDirection ) {
       pixelnumber = (NUM_LEDS/2-1) - j;
