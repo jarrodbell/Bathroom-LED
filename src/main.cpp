@@ -46,7 +46,7 @@ ClickButton button1(BUTTON_PIN, LOW, CLICKBTN_PULLUP);
 //#define TIMEOUT_MANUAL 5000 // Timeout for manual trigger via button
 //#define TIMEOUT_AUTO 10000  // Timeout for auto trigger via PIR
 
-#define OFF_MODE 4 // Which effect to call on when OFF is triggered (position in array, 0-based)
+#define OFF_MODE 5 // Which effect to call on when OFF is triggered (position in array, 0-based)
 
 // FastLED provides these pre-conigured incandescent color profiles:
 //     Candle, Tungsten40W, Tungsten100W, Halogen, CarbonArc,
@@ -254,7 +254,7 @@ uint16_t Fire2012() {
 
   // Step 4.  Map from heat cells to LED colors
   for( int j = 0; j < NUM_LEDS/2; j++) {
-    CRGB color = HeatColor( constrain(heat[j], 0, 100));
+    CRGB color = HeatColor( constrain(heat[j], 0, 100)); // Constrain to prevent bright whites
     int pixelnumber;
     if( gReverseDirection ) {
       pixelnumber = (NUM_LEDS/2-1) - j;
@@ -281,6 +281,7 @@ functionList effectList[] = {
   fillFire,
   effectOff
 };
+int solidEffectColor = 3;
 
 void setup() {
 
@@ -340,9 +341,9 @@ void loop() {
   // FastLED.show();
   // FastLED.delay(8);
 
-  EVERY_N_MILLISECONDS(20) {
+  EVERY_N_MILLISECONDS(50) {
     // Only update the global hue if not in the manual color choosing solid effect
-    if (currentEffect == 2) {
+    if (currentEffect == solidEffectColor) {
       gHue++;
     }
   }
